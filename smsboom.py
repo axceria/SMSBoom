@@ -22,7 +22,25 @@ if getattr(sys, 'frozen', False):
 elif __file__:
     path = os.path.dirname(__file__)
 
+def read_proxies(proxy_file) -> list:
+    """
+    read proxies
+    # http_proxy, socks4_proxy, socks5_proxy
+    """
+    proxies = []
+    
+    proxies_type = f"{str(proxy_file).strip().split("_")[0]}://"
+    try:
+        with open(proxy_file,"r",encodng=”utf-8") as proxy_file:
+                  for proxy in proxy_file:
+                      proxies.append(f"{proxies_type}{proxy.strip()}")
+        proxy_file.close()
+    except Exception as e:
+        print(f"Unhandled Exceptions: {str(e)}")
+    return proxies
 
+    
+    
 def load_proxies() -> list:
     """load proxies for files
     :return: proxies list
